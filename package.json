@@ -1,0 +1,15 @@
+{
+    "name": "pwa-public-debate-api",
+    "main": "server.js",
+    "description": "Public Debate API - PWA project",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/daniel-madera/pwa-2015-public-debate-server-api.git"
+    },
+    "license": "UNLICENSED",
+    "dependencies": {
+        "express": "~4.0.0",
+        "mongoose": "~3.6.13",
+        "body-parser": "~1.0.1"
+    }
+}
