@@ -1,0 +1,17 @@
+{
+    "threads": [{
+        "id": 1,
+        "url": "/threads/1",
+        "urlPosts": "/threads/1/posts",
+        "title": "Mock thread 1",
+        "created": "2015-08-05T08:40:51.620Z",
+        "author": "john.smith"
+    }, {
+        "id": 2,
+        "url": "/threads/2",
+        "urlPosts": "/threads/2/posts",
+        "title": "Mock thread 2",
+        "created": "2015-12-09T08:40:51.620Z",
+        "author": "jeremy.jackson"
+    }]
+}
