@@ -3,33 +3,56 @@ var app = express();
 var db = require('./app/db');
 
 app.use(function(request, response, next) {
-    response.header("Access-Control-Allow-Origin", "*");
-    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var data = '';
+    request.on('data', function(chunk) {
+        data += chunk;
+    });
+    request.on('end', function() {
+        if (data) {
+            request.body = JSON.parse(data);
+        }
+        next();
+    });
+});
+
+app.use(function(request, response, next) {
+    response.header("access-control-allow-origin", "*");
+    response.header("access-control-allow-headers", "origin, x-requested-with, content-type, accept");
+    response.header('access-control-expose-headers', 'content-range, accept-range, link');
+    response.header('content-type', 'application/json');
     next();
 });
 
-app.get('/threads', function(request, respond) {
-    respond.setHeader('access-control-expose-headers', 'content-range, accept-range, link');
-    respond.setHeader('Content-Type', 'application/json');
+app.get('/threads', function(request, response) {
     db.getThreads(function(error, data) {
-        respond.json(data);
+        response.json(data);
+        response.end();
     });
-    // db.getById(1, 'threads', function(error, data) {
-    //     if (error) {
-    //         var errors = [];
-    //         errors.push(error);
-    //         return respond.json({
-    //             "errors": errors
-    //         });
-    //     }
-    //     respond.json(data);
-    // });
 });
 
-// app.get('/threads/:threadId', function(request, response) {
-
-// });
-
-app.listen(3000, function() {
-    console.log('Example app listening on port 3000!');
+app.get('/threads/:threadId', function(request, response) {
+    var threadId = parseInt(request.params.threadId);
+    console.log(threadId);
+    db.getById(threadId, 'threads', function(error, data) {
+        console.log(error);
+        response.json(data);
+        response.end();
+    });
 });
+
+app.get('/threads/:threadId/posts', function(request, response) {
+    var threadId = parseInt(request.params.threadId);
+    db.getPosts(threadId, function(error, data) {
+        response.json(data);
+        response.end();
+    });
+});
+
+app.post('/threads', function(request, response) {
+    db.saveThread(request.body, function(error, data) {
+        response.json(data);
+        response.end();
+    });
+});
+
+app.listen(3000);
