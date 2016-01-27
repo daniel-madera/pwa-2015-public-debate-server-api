@@ -76,6 +76,17 @@ function database() {
         });
     };
 
+    db.clear = function () {
+        var files = ['threads', 'posts', 'users'];
+        for (var i = 0; i < files.length; i++) {
+            local.save(files[i], [], function (error, data) {
+                if (error) {
+                    console.log(error);
+                }
+            });
+        };
+    };
+
     db.getById = function (id, name, callback) {
         local.get(name, function (error, data) {
             for (i = 0; i < data.length; i += 1) {
