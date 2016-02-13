@@ -27,6 +27,14 @@ function server() {
         next();
     });
 
+    app.get('/', function (request, response, next) {
+        response.status(200);
+        response.json({
+            'greetings': 'Welcome!'
+        });
+        response.end();
+    });
+
     /// *** AUTHORIZED *** ///
 
     app.post('/threads', function (request, response, next) {
