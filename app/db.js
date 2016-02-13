@@ -12,7 +12,7 @@ function database() {
 
     local.get = function (name, callback) {
         fs.readFile(local.file(name), 'utf8', function (error, data) {
-            if (error) {
+            if (error || !data) {
                 return callback('databaseFileReadError', []);
             }
             callback(error, JSON.parse(data));
@@ -78,12 +78,8 @@ function database() {
 
     db.clear = function () {
         var files = ['threads', 'posts', 'users'];
-        for (var i = 0; i < files.length; i++) {
-            local.save(files[i], [], function (error, data) {
-                if (error) {
-                    console.log(error);
-                }
-            });
+        for (i = 0; i < files.length; i += 1) {
+            local.save(files[i], [], function (error, data) {});
         };
     };
 
