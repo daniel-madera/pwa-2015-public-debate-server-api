@@ -31,7 +31,7 @@ function server() {
 
     app.post('/threads', function (request, response, next) {
         if (!request.headers['x-access-token']) {
-            next('unauthorized');
+            return next('unauthorized');
         }
         request.body.author = request.headers['x-access-token'];
         next();
@@ -39,7 +39,7 @@ function server() {
 
     app.post('/threads/:threadId/posts', function (request, response, next) {
         if (!request.headers['x-access-token']) {
-            next('unauthorized');
+            return next('unauthorized');
         }
         request.body.author = request.headers['x-access-token'];
         next();
@@ -75,7 +75,7 @@ function server() {
         var user = request.body;
         db.getUser(user.username, function (error, data) {
             if (error) {
-                return next(error);
+                return next('invalidLogin');
             }
             if (user.password && user.password === data.password) {
                 data.token = user.username;
@@ -218,6 +218,7 @@ function server() {
         }
         response.status(code);
         response.send(data);
+        response.end();
     });
 
     app.listen(3000);
