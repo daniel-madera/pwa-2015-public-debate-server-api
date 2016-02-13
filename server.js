@@ -4,6 +4,7 @@ function server() {
     var app = express();
     var db = require('./app/db');
     var errors = require('./app/errors.js');
+    var port = process.env.PORT || 3000;
 
     app.use(function (request, response, next) {
         var data = '';
@@ -229,7 +230,8 @@ function server() {
         response.end();
     });
 
-    app.listen(3000);
+    app.listen(port, function () {
+        console.log('App is running on http://localhost:' + port);
+    });
 }
-
 server();
