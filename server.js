@@ -30,11 +30,16 @@ function server() {
     /// *** AUTHORIZED *** ///
 
     app.post('/threads', function (request, response, next) {
-        if (!request.headers['x-access-token']) {
-            return next('unauthorized');
-        }
-        request.body.author = request.headers['x-access-token'];
-        next();
+        // if (!request.headers['x-access-token']) {
+        //     return next('unauthorized');
+        // }
+        // request.body.author = request.headers['x-access-token'];
+        // next();
+        response.status(201);
+        response.json({
+            test: 'test'
+        });
+        response.end();
     });
 
     app.post('/threads/:threadId/posts', function (request, response, next) {
